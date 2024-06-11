@@ -25,7 +25,7 @@ void main() {
       });
 
       test("can get token", () async {
-        final pnt = PlainNotificationToken();
+        final pnt = ApnsToken();
         final actual = await pnt.getToken();
         expect(actual, equals(fcmToken));
       });
@@ -48,7 +48,7 @@ void main() {
       });
 
       test("can get token", () async {
-        final pnt = PlainNotificationToken();
+        final pnt = ApnsToken();
         final actual = await pnt.getToken();
         expect(actual, equals(apnsToken));
       });

@@ -22,12 +22,12 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    onTokenRefreshSubscription = PlainNotificationToken().onTokenRefresh.listen((token) {
+    onTokenRefreshSubscription = ApnsToken().onTokenRefresh.listen((token) {
       setState(() {
         _pushToken = token;
       });
     });
-    onIosSubscription = PlainNotificationToken().onIosSettingsRegistered.listen((settings) {
+    onIosSubscription = ApnsToken().onIosSettingsRegistered.listen((settings) {
       setState(() {
         _settings = settings;
       });
@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
                 builder: (context) => ElevatedButton(
                   child: Text("Request permission"),
                   onPressed: () {
-                    PlainNotificationToken().requestPermission();
+                    ApnsToken().requestPermission();
                   },
                 ),
               )
@@ -71,7 +71,7 @@ class _MyAppState extends State<MyApp> {
                   late String? token;
                   // Platform messages may fail, so we use a try/catch PlatformException.
                   try {
-                    token = await PlainNotificationToken().getToken();
+                    token = await ApnsToken().getToken();
                   } on PlatformException {
                     token = 'Failed to get platform version.';
                   }

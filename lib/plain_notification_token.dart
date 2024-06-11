@@ -7,20 +7,20 @@ import 'package:platform/platform.dart';
 /// Utility class to get token to send push notification for Flutter.
 ///
 /// This plugin is aiming to compatible with [firebase_messaging](https://pub.dev/packages/firebase_messaging) API.
-class PlainNotificationToken {
-  static PlainNotificationToken? _instance;
+class ApnsToken {
+  static ApnsToken? _instance;
   final MethodChannel _channel;
   final Platform _platform;
 
-  PlainNotificationToken._(MethodChannel channel, Platform platform)
+  ApnsToken._(MethodChannel channel, Platform platform)
       : _channel = channel,
         _platform = platform {
     _channel.setMethodCallHandler(_handleMethod);
   }
 
-  factory PlainNotificationToken() =>
+  factory ApnsToken() =>
       _instance ??
-      (_instance = PlainNotificationToken._(
+      (_instance = ApnsToken._(
           const MethodChannel('plain_notification_token'),
           const LocalPlatform()));
 
@@ -88,7 +88,7 @@ class IosNotificationSettings {
         badge = settings['badge']!;
 
   @visibleForTesting
-  Map<String, dynamic?> toMap() {
+  Map<String, dynamic> toMap() {
     return <String, bool?>{'sound': sound, 'alert': alert, 'badge': badge};
   }
 
