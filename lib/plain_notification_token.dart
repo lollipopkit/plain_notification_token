@@ -53,16 +53,16 @@ class ApnsToken {
       [IosNotificationSettings settings = const IosNotificationSettings()]) {
     if (_platform.isAndroid) return;
 
-    _channel.invokeMethod("requestPermission", settings.toMap());
+    _channel.invokeMethod('requestPermission', settings.toMap());
   }
 
   Future<dynamic> _handleMethod(MethodCall call) async {
     switch (call.method) {
-      case "onToken":
+      case 'onToken':
         final String token = call.arguments;
         _tokenStreamController.add(token);
         return null;
-      case "onIosSettingsRegistered":
+      case 'onIosSettingsRegistered':
         _iosSettingsStreamController.add(IosNotificationSettings._fromMap(
             call.arguments.cast<String, bool>()));
         return null;

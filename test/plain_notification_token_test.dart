@@ -1,53 +1,56 @@
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:plain_notification_token/plain_notification_token.dart';
 
 void main() {
   const MethodChannel channel = MethodChannel('plain_notification_token');
-  WidgetsFlutterBinding.ensureInitialized();
+  TestWidgetsFlutterBinding.ensureInitialized();
+  final messenger =
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
 
-  group("PlainNotificationToken", () {
-    group("In Android", () {
-      final String fcmToken = "jfhwe9hopw:klNGbipbihigIGigighigIGrdUIOgh86VuOi";
+  group('PlainNotificationToken', () {
+    group('In Android', () {
+      final String fcmToken = 'jfhwe9hopw:klNGbipbihigIGigighigIGrdUIOgh86VuOi';
 
       setUp(() {
-        channel.setMockMethodCallHandler((MethodCall methodCall) async {
+        messenger.setMockMethodCallHandler(channel, (MethodCall methodCall) async {
           switch (methodCall.method) {
-            case "getToken":
+            case 'getToken':
               return fcmToken;
           }
+          return null;
         });
       });
 
       tearDown(() {
-        channel.setMockMethodCallHandler(null);
+        messenger.setMockMethodCallHandler(channel, null);
       });
 
-      test("can get token", () async {
+      test('can get token', () async {
         final pnt = ApnsToken();
         final actual = await pnt.getToken();
         expect(actual, equals(fcmToken));
       });
     });
 
-    group("In iOS", () {
-      final String apnsToken = "89369abc76a0e86fa60c75d64a52b696629d766f070ba6";
+    group('In iOS', () {
+      final String apnsToken = '89369abc76a0e86fa60c75d64a52b696629d766f070ba6';
 
       setUp(() {
-        channel.setMockMethodCallHandler((MethodCall methodCall) async {
+        messenger.setMockMethodCallHandler(channel, (MethodCall methodCall) async {
           switch (methodCall.method) {
-            case "getToken":
+            case 'getToken':
               return apnsToken;
           }
+          return null;
         });
       });
 
       tearDown(() {
-        channel.setMockMethodCallHandler(null);
+        messenger.setMockMethodCallHandler(channel, null);
       });
 
-      test("can get token", () async {
+      test('can get token', () async {
         final pnt = ApnsToken();
         final actual = await pnt.getToken();
         expect(actual, equals(apnsToken));
@@ -55,16 +58,16 @@ void main() {
     });
   });
 
-  group("IosNotificationSettings", () {
-    test("can serialize to map", () {
+  group('IosNotificationSettings', () {
+    test('can serialize to map', () {
       final from =
           IosNotificationSettings(alert: true, badge: true, sound: false);
       expect(
           from.toMap(),
           equals({
-            "alert": true,
-            "badge": true,
-            "sound": false,
+            'alert': true,
+            'badge': true,
+            'sound': false,
           }));
     });
   });

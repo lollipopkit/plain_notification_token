@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:plain_notification_token/plain_notification_token.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   @override
-  _MyAppState createState() => _MyAppState();
+  State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
@@ -52,10 +54,10 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             children: <Widget>[
               Text('token: $_pushToken\n'),
-              Text("settings: $_settings"),
+              Text('settings: $_settings'),
               Builder(
                 builder: (context) => ElevatedButton(
-                  child: Text("Request permission"),
+                  child: const Text('Request permission'),
                   onPressed: () {
                     ApnsToken().requestPermission();
                   },
@@ -66,7 +68,7 @@ class _MyAppState extends State<MyApp> {
         ),
         floatingActionButton: Builder(
           builder: (context) => FloatingActionButton(
-                child: Icon(Icons.search),
+                child: const Icon(Icons.search),
                 onPressed: () async {
                   late String? token;
                   // Platform messages may fail, so we use a try/catch PlatformException.
@@ -76,7 +78,7 @@ class _MyAppState extends State<MyApp> {
                     token = 'Failed to get platform version.';
                   }
                   ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text(token ?? "(no token yet)")));
+                      .showSnackBar(SnackBar(content: Text(token ?? '(no token yet)')));
                 },
               ),
         ),
