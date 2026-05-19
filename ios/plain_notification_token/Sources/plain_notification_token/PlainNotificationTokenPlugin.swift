@@ -74,7 +74,12 @@ public class PlainNotificationTokenPlugin: NSObject, FlutterPlugin, UIApplicatio
 
         if granted {
           UIApplication.shared.registerForRemoteNotifications()
-          self.channel.invokeMethod("onIosSettingsRegistered", arguments: settings)
+          let settingsDictionary: [String: Bool] = [
+            "alert": settings["alert"]?.boolValue == true,
+            "badge": settings["badge"]?.boolValue == true,
+            "sound": settings["sound"]?.boolValue == true,
+          ]
+          self.channel.invokeMethod("onIosSettingsRegistered", arguments: settingsDictionary)
         } else {
           self.channel.invokeMethod(
             "onIosSettingsRegistered",
